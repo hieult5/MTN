@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3463d78c6d564365badab802786cea78" Name="Diagram1">
+        <EntityTypeShape EntityType="Models.HT_Nguoidung" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.NV_Dulieudubao" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.NV_DulieuQuantrac" Width="1.5" PointX="7.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.NV_MauBaocao" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.NV_MaubaocaoDiadanh" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.NV_MaubaocaoThuoctinh" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.sysdiagram" Width="1.5" PointX="9.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.TD_Danhmuc" Width="1.5" PointX="5.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.TD_Diadanh" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.TD_Thuoctinh" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Models.TD_ThuoctinhGiatri" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <AssociationConnector Association="Models.FK_NV_MaubaocaoDiadanh_NV_MauBaocao" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_NV_MaubaocaoThuoctinh_NV_MauBaocao" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_NV_MaubaocaoThuoctinh_TD_Thuoctinh" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_TD_Diadanh_TD_Danhmuc" ManuallyRouted="false" />
+        <AssociationConnector Association="Models.FK_TD_ThuoctinhGiatri_TD_Thuoctinh" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

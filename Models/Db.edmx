@@ -1,0 +1,738 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="HT_Nguoidung">
+          <Key>
+            <PropertyRef Name="NhanSu_ID" />
+          </Key>
+          <Property Name="NhanSu_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ten" Type="nvarchar" MaxLength="50" />
+          <Property Name="hoDem" Type="nvarchar" MaxLength="150" />
+          <Property Name="fullName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="diaChi" Type="nvarchar" MaxLength="250" />
+          <Property Name="phone" Type="varchar" MaxLength="50" />
+          <Property Name="mail" Type="varchar" MaxLength="50" />
+          <Property Name="tenTruyCap" Type="nvarchar" MaxLength="50" />
+          <Property Name="matKhau" Type="nvarchar" MaxLength="50" />
+          <Property Name="anhDaiDien" Type="nvarchar" MaxLength="250" />
+          <Property Name="anhThumb" Type="nvarchar" MaxLength="250" />
+          <Property Name="gioiTinh" Type="int" Nullable="false" />
+          <Property Name="Quyensudung" Type="int" />
+          <Property Name="Trangthai" Type="bit" Nullable="false" />
+          <Property Name="STT" Type="int" />
+        </EntityType>
+        <EntityType Name="NV_Dulieudubao">
+          <Key>
+            <PropertyRef Name="SolieuDB_ID" />
+          </Key>
+          <Property Name="SolieuDB_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ngaydubao" Type="date" Nullable="false" />
+          <Property Name="Diadanh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Thuoctinh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Giatri" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NV_DulieuQuantrac">
+          <Key>
+            <PropertyRef Name="SolieuQuantrac_ID" />
+          </Key>
+          <Property Name="SolieuQuantrac_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NgayQuantrac" Type="date" Nullable="false" />
+          <Property Name="Diadanh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Thuoctinh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Giatri" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NV_MauBaocao">
+          <Key>
+            <PropertyRef Name="MauBC_ID" />
+          </Key>
+          <Property Name="MauBC_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TenBaocao" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Ngaylap" Type="date" Nullable="false" />
+          <Property Name="Diadanh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nhansu_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Trangthai" Type="bit" Nullable="false" />
+          <Property Name="STT" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NV_MaubaocaoDiadanh">
+          <Key>
+            <PropertyRef Name="BaocaoDiadanh_ID" />
+          </Key>
+          <Property Name="BaocaoDiadanh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MauBC_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Diadanh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="STT" Type="int" />
+        </EntityType>
+        <EntityType Name="NV_MaubaocaoThuoctinh">
+          <Key>
+            <PropertyRef Name="BaocaoThuoctinh_ID" />
+          </Key>
+          <Property Name="BaocaoThuoctinh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MauBC_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Thuoctinh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="STT" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TD_Danhmuc">
+          <Key>
+            <PropertyRef Name="Danhmuc_ID" />
+          </Key>
+          <Property Name="Danhmuc_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TenDanhmuc" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Danhmuccha_ID" Type="varchar" MaxLength="50" />
+          <Property Name="Trangthai" Type="bit" Nullable="false" />
+          <Property Name="STT" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="TD_Diadanh">
+          <Key>
+            <PropertyRef Name="Diadanh_ID" />
+          </Key>
+          <Property Name="Diadanh_ID" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Tendiadanh" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Diadanhcha_ID" Type="varchar" MaxLength="50" />
+          <Property Name="Mota" Type="nvarchar" MaxLength="500" />
+          <Property Name="ToadoX" Type="varchar" MaxLength="50" />
+          <Property Name="ToadoY" Type="varchar" MaxLength="50" />
+          <Property Name="URLs" Type="varchar" MaxLength="500" />
+          <Property Name="Trangthai" Type="bit" Nullable="false" />
+          <Property Name="Danhmuc_ID" Type="varchar" MaxLength="50" />
+          <Property Name="STT" Type="int" />
+        </EntityType>
+        <EntityType Name="TD_Thuoctinh">
+          <Key>
+            <PropertyRef Name="Thuoctinh_ID" />
+          </Key>
+          <Property Name="Thuoctinh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tenthuoctinh" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Donvitinh" Type="nvarchar" MaxLength="50" />
+          <Property Name="Trangthai" Type="bit" Nullable="false" />
+          <Property Name="STT" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TD_ThuoctinhGiatri">
+          <Key>
+            <PropertyRef Name="ThuoctinhGiatri_ID" />
+          </Key>
+          <Property Name="ThuoctinhGiatri_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Thuoctinh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TenGiatri" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="GiatriMin" Type="float" />
+          <Property Name="GiatriMax" Type="float" />
+          <Property Name="Trangthai" Type="bit" Nullable="false" />
+          <Property Name="STT" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_NV_MaubaocaoDiadanh_NV_MauBaocao">
+          <End Role="NV_MauBaocao" Type="Self.NV_MauBaocao" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="NV_MaubaocaoDiadanh" Type="Self.NV_MaubaocaoDiadanh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NV_MauBaocao">
+              <PropertyRef Name="MauBC_ID" />
+            </Principal>
+            <Dependent Role="NV_MaubaocaoDiadanh">
+              <PropertyRef Name="MauBC_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NV_MaubaocaoThuoctinh_NV_MauBaocao">
+          <End Role="NV_MauBaocao" Type="Self.NV_MauBaocao" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="NV_MaubaocaoThuoctinh" Type="Self.NV_MaubaocaoThuoctinh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NV_MauBaocao">
+              <PropertyRef Name="MauBC_ID" />
+            </Principal>
+            <Dependent Role="NV_MaubaocaoThuoctinh">
+              <PropertyRef Name="MauBC_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NV_MaubaocaoThuoctinh_TD_Thuoctinh">
+          <End Role="TD_Thuoctinh" Type="Self.TD_Thuoctinh" Multiplicity="1" />
+          <End Role="NV_MaubaocaoThuoctinh" Type="Self.NV_MaubaocaoThuoctinh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TD_Thuoctinh">
+              <PropertyRef Name="Thuoctinh_ID" />
+            </Principal>
+            <Dependent Role="NV_MaubaocaoThuoctinh">
+              <PropertyRef Name="Thuoctinh_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TD_Diadanh_TD_Danhmuc">
+          <End Role="TD_Danhmuc" Type="Self.TD_Danhmuc" Multiplicity="0..1" />
+          <End Role="TD_Diadanh" Type="Self.TD_Diadanh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TD_Danhmuc">
+              <PropertyRef Name="Danhmuc_ID" />
+            </Principal>
+            <Dependent Role="TD_Diadanh">
+              <PropertyRef Name="Danhmuc_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TD_ThuoctinhGiatri_TD_Thuoctinh">
+          <End Role="TD_Thuoctinh" Type="Self.TD_Thuoctinh" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TD_ThuoctinhGiatri" Type="Self.TD_ThuoctinhGiatri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TD_Thuoctinh">
+              <PropertyRef Name="Thuoctinh_ID" />
+            </Principal>
+            <Dependent Role="TD_ThuoctinhGiatri">
+              <PropertyRef Name="Thuoctinh_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="ModelsStoreContainer">
+          <EntitySet Name="HT_Nguoidung" EntityType="Self.HT_Nguoidung" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NV_Dulieudubao" EntityType="Self.NV_Dulieudubao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NV_DulieuQuantrac" EntityType="Self.NV_DulieuQuantrac" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NV_MauBaocao" EntityType="Self.NV_MauBaocao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NV_MaubaocaoDiadanh" EntityType="Self.NV_MaubaocaoDiadanh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NV_MaubaocaoThuoctinh" EntityType="Self.NV_MaubaocaoThuoctinh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TD_Danhmuc" EntityType="Self.TD_Danhmuc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TD_Diadanh" EntityType="Self.TD_Diadanh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TD_Thuoctinh" EntityType="Self.TD_Thuoctinh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TD_ThuoctinhGiatri" EntityType="Self.TD_ThuoctinhGiatri" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_NV_MaubaocaoDiadanh_NV_MauBaocao" Association="Self.FK_NV_MaubaocaoDiadanh_NV_MauBaocao">
+            <End Role="NV_MauBaocao" EntitySet="NV_MauBaocao" />
+            <End Role="NV_MaubaocaoDiadanh" EntitySet="NV_MaubaocaoDiadanh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NV_MaubaocaoThuoctinh_NV_MauBaocao" Association="Self.FK_NV_MaubaocaoThuoctinh_NV_MauBaocao">
+            <End Role="NV_MauBaocao" EntitySet="NV_MauBaocao" />
+            <End Role="NV_MaubaocaoThuoctinh" EntitySet="NV_MaubaocaoThuoctinh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NV_MaubaocaoThuoctinh_TD_Thuoctinh" Association="Self.FK_NV_MaubaocaoThuoctinh_TD_Thuoctinh">
+            <End Role="TD_Thuoctinh" EntitySet="TD_Thuoctinh" />
+            <End Role="NV_MaubaocaoThuoctinh" EntitySet="NV_MaubaocaoThuoctinh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TD_Diadanh_TD_Danhmuc" Association="Self.FK_TD_Diadanh_TD_Danhmuc">
+            <End Role="TD_Danhmuc" EntitySet="TD_Danhmuc" />
+            <End Role="TD_Diadanh" EntitySet="TD_Diadanh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TD_ThuoctinhGiatri_TD_Thuoctinh" Association="Self.FK_TD_ThuoctinhGiatri_TD_Thuoctinh">
+            <End Role="TD_Thuoctinh" EntitySet="TD_Thuoctinh" />
+            <End Role="TD_ThuoctinhGiatri" EntitySet="TD_ThuoctinhGiatri" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="HT_Nguoidung">
+          <Key>
+            <PropertyRef Name="NhanSu_ID" />
+          </Key>
+          <Property Name="NhanSu_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ten" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hoDem" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="fullName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="diaChi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="mail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tenTruyCap" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="matKhau" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="anhDaiDien" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="anhThumb" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="gioiTinh" Type="Int32" Nullable="false" />
+          <Property Name="Quyensudung" Type="Int32" />
+          <Property Name="Trangthai" Type="Boolean" Nullable="false" />
+          <Property Name="STT" Type="Int32" />
+        </EntityType>
+        <EntityType Name="NV_Dulieudubao">
+          <Key>
+            <PropertyRef Name="SolieuDB_ID" />
+          </Key>
+          <Property Name="SolieuDB_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ngaydubao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Diadanh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Thuoctinh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Giatri" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NV_DulieuQuantrac">
+          <Key>
+            <PropertyRef Name="SolieuQuantrac_ID" />
+          </Key>
+          <Property Name="SolieuQuantrac_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NgayQuantrac" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Diadanh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Thuoctinh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Giatri" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NV_MauBaocao">
+          <Key>
+            <PropertyRef Name="MauBC_ID" />
+          </Key>
+          <Property Name="MauBC_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TenBaocao" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ngaylap" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Diadanh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nhansu_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Trangthai" Type="Boolean" Nullable="false" />
+          <Property Name="STT" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NV_MaubaocaoDiadanh" Relationship="Self.FK_NV_MaubaocaoDiadanh_NV_MauBaocao" FromRole="NV_MauBaocao" ToRole="NV_MaubaocaoDiadanh" />
+          <NavigationProperty Name="NV_MaubaocaoThuoctinh" Relationship="Self.FK_NV_MaubaocaoThuoctinh_NV_MauBaocao" FromRole="NV_MauBaocao" ToRole="NV_MaubaocaoThuoctinh" />
+        </EntityType>
+        <EntityType Name="NV_MaubaocaoDiadanh">
+          <Key>
+            <PropertyRef Name="BaocaoDiadanh_ID" />
+          </Key>
+          <Property Name="BaocaoDiadanh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MauBC_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Diadanh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="STT" Type="Int32" />
+          <NavigationProperty Name="NV_MauBaocao" Relationship="Self.FK_NV_MaubaocaoDiadanh_NV_MauBaocao" FromRole="NV_MaubaocaoDiadanh" ToRole="NV_MauBaocao" />
+        </EntityType>
+        <EntityType Name="NV_MaubaocaoThuoctinh">
+          <Key>
+            <PropertyRef Name="BaocaoThuoctinh_ID" />
+          </Key>
+          <Property Name="BaocaoThuoctinh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MauBC_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Thuoctinh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="STT" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NV_MauBaocao" Relationship="Self.FK_NV_MaubaocaoThuoctinh_NV_MauBaocao" FromRole="NV_MaubaocaoThuoctinh" ToRole="NV_MauBaocao" />
+          <NavigationProperty Name="TD_Thuoctinh" Relationship="Self.FK_NV_MaubaocaoThuoctinh_TD_Thuoctinh" FromRole="NV_MaubaocaoThuoctinh" ToRole="TD_Thuoctinh" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TD_Danhmuc">
+          <Key>
+            <PropertyRef Name="Danhmuc_ID" />
+          </Key>
+          <Property Name="Danhmuc_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TenDanhmuc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Danhmuccha_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Trangthai" Type="Boolean" Nullable="false" />
+          <Property Name="STT" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="TD_Diadanh" Relationship="Self.FK_TD_Diadanh_TD_Danhmuc" FromRole="TD_Danhmuc" ToRole="TD_Diadanh" />
+        </EntityType>
+        <EntityType Name="TD_Diadanh">
+          <Key>
+            <PropertyRef Name="Diadanh_ID" />
+          </Key>
+          <Property Name="Diadanh_ID" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Tendiadanh" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Diadanhcha_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Mota" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ToadoX" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ToadoY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="URLs" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Trangthai" Type="Boolean" Nullable="false" />
+          <Property Name="Danhmuc_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="STT" Type="Int32" />
+          <NavigationProperty Name="TD_Danhmuc" Relationship="Self.FK_TD_Diadanh_TD_Danhmuc" FromRole="TD_Diadanh" ToRole="TD_Danhmuc" />
+        </EntityType>
+        <EntityType Name="TD_Thuoctinh">
+          <Key>
+            <PropertyRef Name="Thuoctinh_ID" />
+          </Key>
+          <Property Name="Thuoctinh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Tenthuoctinh" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Donvitinh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Trangthai" Type="Boolean" Nullable="false" />
+          <Property Name="STT" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NV_MaubaocaoThuoctinh" Relationship="Self.FK_NV_MaubaocaoThuoctinh_TD_Thuoctinh" FromRole="TD_Thuoctinh" ToRole="NV_MaubaocaoThuoctinh" />
+          <NavigationProperty Name="TD_ThuoctinhGiatri" Relationship="Self.FK_TD_ThuoctinhGiatri_TD_Thuoctinh" FromRole="TD_Thuoctinh" ToRole="TD_ThuoctinhGiatri" />
+        </EntityType>
+        <EntityType Name="TD_ThuoctinhGiatri">
+          <Key>
+            <PropertyRef Name="ThuoctinhGiatri_ID" />
+          </Key>
+          <Property Name="ThuoctinhGiatri_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Thuoctinh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TenGiatri" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GiatriMin" Type="Double" />
+          <Property Name="GiatriMax" Type="Double" />
+          <Property Name="Trangthai" Type="Boolean" Nullable="false" />
+          <Property Name="STT" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TD_Thuoctinh" Relationship="Self.FK_TD_ThuoctinhGiatri_TD_Thuoctinh" FromRole="TD_ThuoctinhGiatri" ToRole="TD_Thuoctinh" />
+        </EntityType>
+        <Association Name="FK_NV_MaubaocaoDiadanh_NV_MauBaocao">
+          <End Role="NV_MauBaocao" Type="Self.NV_MauBaocao" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="NV_MaubaocaoDiadanh" Type="Self.NV_MaubaocaoDiadanh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NV_MauBaocao">
+              <PropertyRef Name="MauBC_ID" />
+            </Principal>
+            <Dependent Role="NV_MaubaocaoDiadanh">
+              <PropertyRef Name="MauBC_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NV_MaubaocaoThuoctinh_NV_MauBaocao">
+          <End Role="NV_MauBaocao" Type="Self.NV_MauBaocao" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="NV_MaubaocaoThuoctinh" Type="Self.NV_MaubaocaoThuoctinh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NV_MauBaocao">
+              <PropertyRef Name="MauBC_ID" />
+            </Principal>
+            <Dependent Role="NV_MaubaocaoThuoctinh">
+              <PropertyRef Name="MauBC_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NV_MaubaocaoThuoctinh_TD_Thuoctinh">
+          <End Role="TD_Thuoctinh" Type="Self.TD_Thuoctinh" Multiplicity="1" />
+          <End Role="NV_MaubaocaoThuoctinh" Type="Self.NV_MaubaocaoThuoctinh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TD_Thuoctinh">
+              <PropertyRef Name="Thuoctinh_ID" />
+            </Principal>
+            <Dependent Role="NV_MaubaocaoThuoctinh">
+              <PropertyRef Name="Thuoctinh_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TD_Diadanh_TD_Danhmuc">
+          <End Role="TD_Danhmuc" Type="Self.TD_Danhmuc" Multiplicity="0..1" />
+          <End Role="TD_Diadanh" Type="Self.TD_Diadanh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TD_Danhmuc">
+              <PropertyRef Name="Danhmuc_ID" />
+            </Principal>
+            <Dependent Role="TD_Diadanh">
+              <PropertyRef Name="Danhmuc_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TD_ThuoctinhGiatri_TD_Thuoctinh">
+          <End Role="TD_Thuoctinh" Type="Self.TD_Thuoctinh" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TD_ThuoctinhGiatri" Type="Self.TD_ThuoctinhGiatri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TD_Thuoctinh">
+              <PropertyRef Name="Thuoctinh_ID" />
+            </Principal>
+            <Dependent Role="TD_ThuoctinhGiatri">
+              <PropertyRef Name="Thuoctinh_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="HT_Nguoidung" EntityType="Self.HT_Nguoidung" />
+          <EntitySet Name="NV_Dulieudubao" EntityType="Self.NV_Dulieudubao" />
+          <EntitySet Name="NV_DulieuQuantrac" EntityType="Self.NV_DulieuQuantrac" />
+          <EntitySet Name="NV_MauBaocao" EntityType="Self.NV_MauBaocao" />
+          <EntitySet Name="NV_MaubaocaoDiadanh" EntityType="Self.NV_MaubaocaoDiadanh" />
+          <EntitySet Name="NV_MaubaocaoThuoctinh" EntityType="Self.NV_MaubaocaoThuoctinh" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="TD_Danhmuc" EntityType="Self.TD_Danhmuc" />
+          <EntitySet Name="TD_Diadanh" EntityType="Self.TD_Diadanh" />
+          <EntitySet Name="TD_Thuoctinh" EntityType="Self.TD_Thuoctinh" />
+          <EntitySet Name="TD_ThuoctinhGiatri" EntityType="Self.TD_ThuoctinhGiatri" />
+          <AssociationSet Name="FK_NV_MaubaocaoDiadanh_NV_MauBaocao" Association="Self.FK_NV_MaubaocaoDiadanh_NV_MauBaocao">
+            <End Role="NV_MauBaocao" EntitySet="NV_MauBaocao" />
+            <End Role="NV_MaubaocaoDiadanh" EntitySet="NV_MaubaocaoDiadanh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NV_MaubaocaoThuoctinh_NV_MauBaocao" Association="Self.FK_NV_MaubaocaoThuoctinh_NV_MauBaocao">
+            <End Role="NV_MauBaocao" EntitySet="NV_MauBaocao" />
+            <End Role="NV_MaubaocaoThuoctinh" EntitySet="NV_MaubaocaoThuoctinh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NV_MaubaocaoThuoctinh_TD_Thuoctinh" Association="Self.FK_NV_MaubaocaoThuoctinh_TD_Thuoctinh">
+            <End Role="TD_Thuoctinh" EntitySet="TD_Thuoctinh" />
+            <End Role="NV_MaubaocaoThuoctinh" EntitySet="NV_MaubaocaoThuoctinh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TD_Diadanh_TD_Danhmuc" Association="Self.FK_TD_Diadanh_TD_Danhmuc">
+            <End Role="TD_Danhmuc" EntitySet="TD_Danhmuc" />
+            <End Role="TD_Diadanh" EntitySet="TD_Diadanh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TD_ThuoctinhGiatri_TD_Thuoctinh" Association="Self.FK_TD_ThuoctinhGiatri_TD_Thuoctinh">
+            <End Role="TD_Thuoctinh" EntitySet="TD_Thuoctinh" />
+            <End Role="TD_ThuoctinhGiatri" EntitySet="TD_ThuoctinhGiatri" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(Models.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(Models.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelsStoreContainer" CdmEntityContainer="DbEntities">
+          <EntitySetMapping Name="HT_Nguoidung">
+            <EntityTypeMapping TypeName="Models.HT_Nguoidung">
+              <MappingFragment StoreEntitySet="HT_Nguoidung">
+                <ScalarProperty Name="NhanSu_ID" ColumnName="NhanSu_ID" />
+                <ScalarProperty Name="ten" ColumnName="ten" />
+                <ScalarProperty Name="hoDem" ColumnName="hoDem" />
+                <ScalarProperty Name="fullName" ColumnName="fullName" />
+                <ScalarProperty Name="diaChi" ColumnName="diaChi" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="tenTruyCap" ColumnName="tenTruyCap" />
+                <ScalarProperty Name="matKhau" ColumnName="matKhau" />
+                <ScalarProperty Name="anhDaiDien" ColumnName="anhDaiDien" />
+                <ScalarProperty Name="anhThumb" ColumnName="anhThumb" />
+                <ScalarProperty Name="gioiTinh" ColumnName="gioiTinh" />
+                <ScalarProperty Name="Quyensudung" ColumnName="Quyensudung" />
+                <ScalarProperty Name="Trangthai" ColumnName="Trangthai" />
+                <ScalarProperty Name="STT" ColumnName="STT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NV_Dulieudubao">
+            <EntityTypeMapping TypeName="Models.NV_Dulieudubao">
+              <MappingFragment StoreEntitySet="NV_Dulieudubao">
+                <ScalarProperty Name="SolieuDB_ID" ColumnName="SolieuDB_ID" />
+                <ScalarProperty Name="Ngaydubao" ColumnName="Ngaydubao" />
+                <ScalarProperty Name="Diadanh_ID" ColumnName="Diadanh_ID" />
+                <ScalarProperty Name="Thuoctinh_ID" ColumnName="Thuoctinh_ID" />
+                <ScalarProperty Name="Giatri" ColumnName="Giatri" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NV_DulieuQuantrac">
+            <EntityTypeMapping TypeName="Models.NV_DulieuQuantrac">
+              <MappingFragment StoreEntitySet="NV_DulieuQuantrac">
+                <ScalarProperty Name="SolieuQuantrac_ID" ColumnName="SolieuQuantrac_ID" />
+                <ScalarProperty Name="NgayQuantrac" ColumnName="NgayQuantrac" />
+                <ScalarProperty Name="Diadanh_ID" ColumnName="Diadanh_ID" />
+                <ScalarProperty Name="Thuoctinh_ID" ColumnName="Thuoctinh_ID" />
+                <ScalarProperty Name="Giatri" ColumnName="Giatri" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NV_MauBaocao">
+            <EntityTypeMapping TypeName="Models.NV_MauBaocao">
+              <MappingFragment StoreEntitySet="NV_MauBaocao">
+                <ScalarProperty Name="MauBC_ID" ColumnName="MauBC_ID" />
+                <ScalarProperty Name="TenBaocao" ColumnName="TenBaocao" />
+                <ScalarProperty Name="Ngaylap" ColumnName="Ngaylap" />
+                <ScalarProperty Name="Diadanh_ID" ColumnName="Diadanh_ID" />
+                <ScalarProperty Name="Nhansu_ID" ColumnName="Nhansu_ID" />
+                <ScalarProperty Name="Trangthai" ColumnName="Trangthai" />
+                <ScalarProperty Name="STT" ColumnName="STT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NV_MaubaocaoDiadanh">
+            <EntityTypeMapping TypeName="Models.NV_MaubaocaoDiadanh">
+              <MappingFragment StoreEntitySet="NV_MaubaocaoDiadanh">
+                <ScalarProperty Name="BaocaoDiadanh_ID" ColumnName="BaocaoDiadanh_ID" />
+                <ScalarProperty Name="MauBC_ID" ColumnName="MauBC_ID" />
+                <ScalarProperty Name="Diadanh_ID" ColumnName="Diadanh_ID" />
+                <ScalarProperty Name="STT" ColumnName="STT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NV_MaubaocaoThuoctinh">
+            <EntityTypeMapping TypeName="Models.NV_MaubaocaoThuoctinh">
+              <MappingFragment StoreEntitySet="NV_MaubaocaoThuoctinh">
+                <ScalarProperty Name="BaocaoThuoctinh_ID" ColumnName="BaocaoThuoctinh_ID" />
+                <ScalarProperty Name="MauBC_ID" ColumnName="MauBC_ID" />
+                <ScalarProperty Name="Thuoctinh_ID" ColumnName="Thuoctinh_ID" />
+                <ScalarProperty Name="STT" ColumnName="STT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Models.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TD_Danhmuc">
+            <EntityTypeMapping TypeName="Models.TD_Danhmuc">
+              <MappingFragment StoreEntitySet="TD_Danhmuc">
+                <ScalarProperty Name="Danhmuc_ID" ColumnName="Danhmuc_ID" />
+                <ScalarProperty Name="TenDanhmuc" ColumnName="TenDanhmuc" />
+                <ScalarProperty Name="Danhmuccha_ID" ColumnName="Danhmuccha_ID" />
+                <ScalarProperty Name="Trangthai" ColumnName="Trangthai" />
+                <ScalarProperty Name="STT" ColumnName="STT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TD_Diadanh">
+            <EntityTypeMapping TypeName="Models.TD_Diadanh">
+              <MappingFragment StoreEntitySet="TD_Diadanh">
+                <ScalarProperty Name="Diadanh_ID" ColumnName="Diadanh_ID" />
+                <ScalarProperty Name="Tendiadanh" ColumnName="Tendiadanh" />
+                <ScalarProperty Name="Diadanhcha_ID" ColumnName="Diadanhcha_ID" />
+                <ScalarProperty Name="Mota" ColumnName="Mota" />
+                <ScalarProperty Name="ToadoX" ColumnName="ToadoX" />
+                <ScalarProperty Name="ToadoY" ColumnName="ToadoY" />
+                <ScalarProperty Name="URLs" ColumnName="URLs" />
+                <ScalarProperty Name="Trangthai" ColumnName="Trangthai" />
+                <ScalarProperty Name="Danhmuc_ID" ColumnName="Danhmuc_ID" />
+                <ScalarProperty Name="STT" ColumnName="STT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TD_Thuoctinh">
+            <EntityTypeMapping TypeName="Models.TD_Thuoctinh">
+              <MappingFragment StoreEntitySet="TD_Thuoctinh">
+                <ScalarProperty Name="Thuoctinh_ID" ColumnName="Thuoctinh_ID" />
+                <ScalarProperty Name="Tenthuoctinh" ColumnName="Tenthuoctinh" />
+                <ScalarProperty Name="Donvitinh" ColumnName="Donvitinh" />
+                <ScalarProperty Name="Trangthai" ColumnName="Trangthai" />
+                <ScalarProperty Name="STT" ColumnName="STT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TD_ThuoctinhGiatri">
+            <EntityTypeMapping TypeName="Models.TD_ThuoctinhGiatri">
+              <MappingFragment StoreEntitySet="TD_ThuoctinhGiatri">
+                <ScalarProperty Name="ThuoctinhGiatri_ID" ColumnName="ThuoctinhGiatri_ID" />
+                <ScalarProperty Name="Thuoctinh_ID" ColumnName="Thuoctinh_ID" />
+                <ScalarProperty Name="TenGiatri" ColumnName="TenGiatri" />
+                <ScalarProperty Name="GiatriMin" ColumnName="GiatriMin" />
+                <ScalarProperty Name="GiatriMax" ColumnName="GiatriMax" />
+                <ScalarProperty Name="Trangthai" ColumnName="Trangthai" />
+                <ScalarProperty Name="STT" ColumnName="STT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Models.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Models.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Models.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Models.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Models.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Models.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Models.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Models.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Models.Store.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
