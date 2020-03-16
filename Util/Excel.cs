@@ -9,169 +9,190 @@ using System.Web;
 
 namespace MTN.Util
 {
-    public class Excel
+    public static class Excel
     {
-        public static string getCopyExcelTemplateFile(string path)
+        public static string getCopyExcelTemplateFile(out string newFile)
         {
+            newFile = Guid.NewGuid() + "Excel.xlsx";
             string
-                newFile = Guid.NewGuid() + "Excel.xlsx",
                 rootPath = HttpContext.Current.Request.MapPath("~"),
-                templateFile = rootPath + path,
-                tempFile = Path.GetDirectoryName(templateFile) + "\\" + newFile;
+                templateFile = rootPath + "\\TemplateFile\\Template.xlsx",
+                tempFile = Path.GetDirectoryName(templateFile) + "\\temp\\" + newFile;
 
             // coppy excel file
             File.Copy(templateFile, tempFile, true);
             return tempFile;
         }
 
-        public static byte[] WriteExcel(Dictionary<DateTime, string[,]> lst, string excelFile, string path)
+        public static byte[] WriteExcel(this Dictionary<DateTime, string[,]> lst, string excelFile)
         {
             var template = new FileInfo(excelFile);
+            bool hasData = true;
             using (var templateStream = new MemoryStream())
             {
                 using (SpreadsheetDocument spreadDocument = SpreadsheetDocument.Open(excelFile, true))
                 {
                     WorkbookPart workBookPart = spreadDocument.WorkbookPart;
                     Workbook workbook = workBookPart.Workbook;
-                    string id;
-                    using (SpreadsheetDocument newXLFile = SpreadsheetDocument.Open(HttpContext.Current.Request.MapPath("~") + path, true))
-                    {
-                        WorkbookPart wookbookP = newXLFile.WorkbookPart;
-                        string relId = wookbookP.Workbook.Descendants<Sheet>().Where(s => s.Name.Value.Equals("sheet_name")).First().Id;
-                        WorksheetPart sourceSheetPart = (WorksheetPart)wookbookP.GetPartById(relId);
-                        WorksheetPart worksheetPart = workBookPart.AddPart<WorksheetPart>(sourceSheetPart);
-                        id = workBookPart.GetIdOfPart(worksheetPart);
-                    }
 
                     var fileVersion = new FileVersion { ApplicationName = "Microsoft Office Excel" };
                     Workbook wb = new Workbook();
                     wb.Append(fileVersion);
                     Sheets sheets = null;
 
+                    WorksheetPart sourceSheetPart = null;
+                    
+                    // add sheet
                     foreach (KeyValuePair<DateTime, string[,]> item in lst)
                     {
                         sheets = sheets ?? new Sheets();
+                        var sheetId = sheets != null ? (uint)sheets.ChildElements.Count + 1 : 1;
 
-                        Sheet copiedSheet = new Sheet
+                        using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(HttpContext.Current.Request.MapPath("~") + "TemplateFile\\Template.xlsx", true))
                         {
-                            Name = item.Key.ToString("dd-MM-yyyy"),
-                            Id = id
-                        };
+                            WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+                            string rId = workbookPart.Workbook.Descendants<Sheet>().Where(s => s.Name.Value.Equals("sheet_name")).First().Id;
 
-                        copiedSheet.SheetId = sheets != null ? (uint)sheets.ChildElements.Count + 1 : 1;
+                            WorksheetPart wsPart = (WorksheetPart)workbookPart.GetPartById(rId);
+                            try
+                            {
+                                workbookPart.ChangeIdOfPart(wsPart, "wsPart_" + sheetId);
+                            }
+                            catch
+                            {
+                                workbookPart.ChangeIdOfPart(wsPart, "rId1");
+                                workbookPart.Workbook.Descendants<Sheet>().Where(s => s.Name.Value.Equals("sheet_name")).First().Id = "rId1";
+                                workbookPart.ChangeIdOfPart(wsPart, "wsPart_" + sheetId);
+                            }
+                            workbookPart.Workbook.Descendants<Sheet>().Where(s => s.Name.Value.Equals("sheet_name")).First().Id = "wsPart_" + sheetId;
+                            sourceSheetPart = wsPart;
 
-                        sheets.Append(copiedSheet);
+                            WorksheetPart worksheetPart = workBookPart.AddPart<WorksheetPart>(sourceSheetPart);
 
+                            Sheet copiedSheet = new Sheet
+                            {
+                                Name = item.Key.ToString("dd-MM-yyyy"),
+                                Id = workBookPart.GetIdOfPart(worksheetPart)
+                            };
+                            copiedSheet.SheetId = sheetId;
+
+                            sheets.Append(copiedSheet);
+                            worksheetPart.Worksheet.GetFirstChild<SheetData>().updateSheetData(item.Key, item.Value);
+                            workbookPart.ChangeIdOfPart(wsPart, "rId1");
+                            workbookPart.Workbook.Descendants<Sheet>().Where(s => s.Name.Value.Equals("sheet_name")).First().Id = "rId1";
+                        }
                     }
-                    wb.Append(sheets);
-                    //Save Changes
-                    workBookPart.Workbook = wb;
-                    wb.Save();
-                    workBookPart.Workbook.Save();
+                    hasData = sheets != null;
+                    if (sheets != null)
+                    {
+                        wb.Append(sheets);
 
-                    Sheet sheet = workBookPart.Workbook.Sheets.GetFirstChild<Sheet>();
-                    //sheet.Name = ...
-                    Worksheet worksheet = (spreadDocument.WorkbookPart.GetPartById(sheet.Id.Value) as WorksheetPart).Worksheet;
-
-                    //SheetData sheetData = worksheet.GetFirstChild<SheetData>();
-                    //setSheetData(sheetData, lst.First().Value);
-                    int? index = null;
-                    worksheet.ChildElements.Cast<SheetData>().ForEach(ref index,
-                        sheetData =>
-                        {
-                            string[,] arr = lst.Values.ToArray()[index.Value];
-                            setSheetData(sheetData, arr);
-                        });
-                    spreadDocument.WorkbookPart.Workbook.Save();
+                        //Save Changes
+                        workBookPart.Workbook = wb;
+                        wb.Save();
+                        workBookPart.Workbook.Save();
+                    }
                     spreadDocument.Close();
                 }
-                byte[] templateBytes = File.ReadAllBytes(template.FullName);
-                templateStream.Write(templateBytes, 0, templateBytes.Length);
-                templateStream.Position = 0;
-                var result = templateStream.ToArray();
-                templateStream.Flush();
-                try
+                if (hasData)
                 {
-                    if (!File.Exists(excelFile))
+
+                    byte[] templateBytes = File.ReadAllBytes(template.FullName);
+                    templateStream.Write(templateBytes, 0, templateBytes.Length);
+                    var result = templateStream.ToArray();
+                    templateStream.Position = 0;
+                    templateStream.Flush();
+                    try
                     {
-                        File.Delete(excelFile);
+                        if (!File.Exists(excelFile))
+                        {
+                            File.Delete(excelFile);
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                    return result;
                 }
-                catch (Exception ex)
-                {
-                    
-                }
-                return result;
+                else
+                    return null;
             }
         }
 
-        private static void setSheetData(SheetData sheetData, string[,] arr)
+        private static void updateSheetData(this SheetData sheetData, DateTime date, string[,] arr)
         {
+            // update date
+            Row headerTimeRow = sheetData.Elements<Row>().Where(r => r.RowIndex == 2).First();
+            Cell headerTimeCell = headerTimeRow.Elements<Cell>().Where(c => string.Compare(c.CellReference.Value, 9.getColumnName() + 2, true) == 0).First();
+            headerTimeCell.updateText(9, Convert.ToInt32(headerTimeRow.RowIndex.Value), "Ngày " + date.ToString("dd/MM"));
+
+
+            Row timeInfoRow = sheetData.Elements<Row>().Where(r => r.RowIndex == 5).First();
+            Cell timeInfoCell = timeInfoRow.Elements<Cell>().Where(c => string.Compare(c.CellReference.Value, 2.getColumnName() + 5, true) == 0).First();
+            timeInfoCell.updateText(2, Convert.ToInt32(headerTimeRow.RowIndex.Value), "CHỈ TIÊU CHẤT LƯỢNG NƯỚC ĐO ĐẠC LÚC 9 GIỜ SÁNG NGÀY " + date.ToString("dd/MM/yyyy"));
+
             for (int i = 0; i < arr.GetLength(0); i++)
             {
-                Row header = new Row();
-                header.RowIndex = (uint)i + 6;
+                uint rowIndex = (uint)i + 6;
+                Row row = sheetData.Elements<Row>().Where(r => r.RowIndex == rowIndex).First();
 
                 for (int j = 0; j < arr.GetLength(1); j++)
                 {
-                    Cell headerCell = createTextCell(j + 1, Convert.ToInt32(header.RowIndex.Value), arr[i, j]);
-                    header.AppendChild(headerCell);
+                    try
+                    {
+                        string cellRef = (j + 3).getColumnName() + rowIndex;
+                        Cell cell = row.Elements<Cell>().Where(c => string.Compare(c.CellReference.Value, cellRef, true) == 0).First();
+                        cell.updateText(j + 3, Convert.ToInt32(row.RowIndex.Value), arr[i, j]);
+                    }
+                    catch (Exception ex)
+                    {
+                        string excep = ex.Message;
+                    }
                 }
-
-                sheetData.AppendChild(header);
             }
         }
 
-        private static Cell createTextCell(int columnIndex, int rowIndex, string cellValue)
+        private static void updateText(this Cell cell, int columnIndex, int rowIndex, string cellValue)
         {
-            Cell cell = new Cell();
-            cell.CellReference = getColumnName(columnIndex) + rowIndex;
             int resInt;
             double resDouble;
             DateTime resDate;
 
-            if (int.TryParse(cellValue, out resInt))
+            try
             {
-                CellValue v = new CellValue();
-                v.Text = resInt.ToString();
-                cell.AppendChild(v);
+                if (int.TryParse(cellValue, out resInt))
+                {
+                    cell.CellValue = new CellValue(resInt.ToString());
+                }
+                else if (double.TryParse(cellValue, out resDouble))
+                {
+                    cell.CellValue = new CellValue(resDouble.ToString());
+                }
+                else if (DateTime.TryParse(cellValue, out resDate))
+                {
+                    cell.CellValue = new CellValue(resDate.ToString("dd/MM/yyyy"));
+                }
+                else
+                {
+                    cell.CellValue = new CellValue(cellValue.ToString());
+                    cell.DataType = CellValues.String;
+                }
             }
-            else if (double.TryParse(cellValue, out resDouble))
+            catch (Exception ex)
             {
-                CellValue v = new CellValue();
-                v.Text = resDouble.ToString();
-                cell.AppendChild(v);
+                string excep = ex.Message;
             }
-            else if (DateTime.TryParse(cellValue, out resDate))
-            {
-                cell.DataType = CellValues.InlineString;
-                InlineString inlineString = new InlineString();
-                Text txt = new Text();
-
-                txt.Text = resDate.ToString("dd/MM/yyyy");
-                inlineString.AppendChild(txt);
-                cell.AppendChild(inlineString);
-            }
-            else
-            {
-                cell.DataType = CellValues.InlineString;
-                InlineString inlineString = new InlineString();
-                Text txt = new Text();
-
-                txt.Text = cellValue == null ? "" : cellValue.ToString();
-                inlineString.AppendChild(txt);
-                cell.AppendChild(inlineString);
-            }
-            return cell;
+            
         }
 
-        private static string getColumnName(int columnIndex)
+        private static string getColumnName(this int columnIndex)
         {
             int dividend = columnIndex;
             string columnName = string.Empty;
             int modifier;
 
-            while(dividend > 0)
+            while (dividend > 0)
             {
                 modifier = (dividend - 1) % 26;
                 columnName = Convert.ToChar(65 + modifier).ToString() + columnName;

@@ -58,7 +58,7 @@ namespace MTN.Util
                 }
                 else
                 {
-                    return new DateTime(2020, 3, 14);
+                    return null;
                 }
             }
             catch (FormatException)

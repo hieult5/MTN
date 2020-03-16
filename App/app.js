@@ -76,7 +76,16 @@ os.config(['$ocLazyLoadProvider', '$stateProvider', '$compileProvider', '$httpPr
 }]);
 os.run(function ($rootScope, $templateCache) {
     var cookie = readCookie("U");
-    if (localStorage.getItem("lo") != cookie && cookie && cookie != "" && cookie != "null") {        localStorage.setItem('lo', cookie);        localStorage.setItem('au', cookie);    }    //else if (!cookie || cookie == "" || cookie == "null") {    //    deleteAllCookies();    //    setCookieUserDomain("");    //    localStorage.removeItem("lo");    //    localStorage.removeItem("u");    //}
+    if (localStorage.getItem("lo") != cookie && cookie && cookie != "" && cookie != "null") {
+        localStorage.setItem('lo', cookie);
+        localStorage.setItem('au', cookie);
+    }
+    //else if (!cookie || cookie == "" || cookie == "null") {
+    //    deleteAllCookies();
+    //    setCookieUserDomain("");
+    //    localStorage.removeItem("lo");
+    //    localStorage.removeItem("u");
+    //}
     if (!localStorage.getItem("lo") && cookie && cookie != "" && cookie != "null") {
         localStorage.setItem('lo', cookie);
         localStorage.setItem('au', cookie);
@@ -279,17 +288,23 @@ os.controller("LoginCtr", ['$scope', '$rootScope', '$http', function ($scope, $r
             url: "/Export/ExportData",
             data: null,
             contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-
+            beforeSend: function () {
+                //startLoader();
             },
-            error: function (result) {
-                Swal.fire({
-                    type: 'error',
-                    title: '',
-                    text: 'lỗi!'
-                });
+            success: function (response) {
+                if (response.status) {
+                    window.location.href = "Export/Download/?file=" + response.fileName;
+                }
+                else {
+                    alert("không có dữ liệu");
+                }
+            },
+            error: function (response) {
+                alert("lỗi");
                 $scope.loadding = false;
-                $scope.err.ms = "* lỗi!";
+            },
+            complete: function () {
+                //stopLoader();
             },
             always: function () {
                 $scope.loadding = false;
