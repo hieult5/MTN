@@ -28,4 +28,28 @@ namespace MTN.Common.Models
         public string Thuoctinh_ID { get; set; }
         public double Giatri { get; set; }
     }
+
+    public class DuLieuDuBao
+    {
+        public DuLieuDuBao() { }
+        public DuLieuDuBao(DateTime _ngayDuBao, string _diadanh_ID, string _thuocTinh_ID, double _giatri)
+        {
+            NgayDuBao = _ngayDuBao;
+            Diadanh_ID = _diadanh_ID;
+            Thuoctinh_ID = _thuocTinh_ID;
+            Giatri = _giatri;
+        }
+
+        public DuLieuDuBao(MTN.Models.NV_Dulieudubao dubao)
+        {
+            NgayDuBao = dubao.Ngaydubao;
+            Diadanh_ID = dubao.Diadanh_ID;
+            Thuoctinh_ID = dubao.Thuoctinh_ID;
+            Giatri = dubao.Giatri;
+        }
+        public DateTime NgayDuBao { get; set; }
+        public string Diadanh_ID { get; set; }
+        public string Thuoctinh_ID { get; set; }
+        public double Giatri { get; set; }
+    }
 }

@@ -37,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -243,6 +244,7 @@
     <Content Include="App\Home\Danhba.html" />
     <Content Include="App\Home\Home.html" />
     <Content Include="App\Home\HomeCtr.js" />
+    <Content Include="App\excel.js" />
     <Content Include="App\SendHub\SendHub.html" />
     <Content Include="App\SendHub\SendHubCtr.js" />
     <Content Include="App\Temp\Phong.html" />
@@ -3183,6 +3185,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Views\Export\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\Module\" />
@@ -3191,7 +3194,6 @@
     <Folder Include="TemplateFile\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\Chat\" />
-    <Folder Include="Views\Export\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>

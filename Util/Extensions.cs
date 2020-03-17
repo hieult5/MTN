@@ -9,6 +9,11 @@ namespace MTN.Util
 {
     public static class Extensions
     {
+        public static string[] Split(this string stringValue, string separator)
+        {
+            return stringValue.Split(new[] { separator }, StringSplitOptions.None);
+        }
+
         public static IQueryable<T> WhereIf<T>(this IQueryable<T> query, bool condition, Expression<Func<T, bool>> predicate)
         {
             return condition
@@ -47,6 +52,7 @@ namespace MTN.Util
             try
             {
                 DateTime r;
+
                 if (DateTime.TryParseExact(
                     s: s,
                     format: format,
