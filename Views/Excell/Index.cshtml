@@ -4,7 +4,6 @@
 
     ViewBag.Title = "Index";
 }
-<h2>Index</h2>
 <br />
 @using (Html.BeginForm("GetData", "Excell", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return myFunction()" }))
 {
@@ -52,11 +51,11 @@
         </div>
         <div class="col-md-10">
             <p>
-                <input type="radio" name="bc" value="false" checked>
+                <input type="radio" name="bc" value="true" checked>
                 <label>báo cáo quan trắc</label>
             </p>
             <p>
-                <input type="radio" name="bc" value="true">
+                <input type="radio" name="bc" value="false">
                 <label>báo cáo dự báo</label>
             </p>
         </div>
