@@ -233,14 +233,35 @@ os.controller("MainCtr", ['$scope', '$rootScope', '$state', '$http', '$sce', fun
             }
         });
     };
-    //--------------------------------------------------------------
-    if ($rootScope.login) {
-        //$rootScope.TenDuan = "Tin tức và sự kiện";
-        var tlt = ($rootScope.login.u.fullName + '<br/>') + ($rootScope.login.u.tenChucVu !== null ? ($rootScope.login.u.tenChucVu + '<br/>') : '') + ($rootScope.login.u.tenPhongban !== null ? $rootScope.login.u.tenPhongban : '');
-        $rootScope.login.u.tooltip = tlt;
-        $scope.BindListModule();
-        $scope.BindListSendHub();
+    $scope.ListDanhmucDiaDanh = function () {
+        $http({
+            method: "POST",
+            url: "Home/ListDanhmucDiadanh",
+            data: {},
+            contentType: 'application/json; charset=utf-8'
+        }).then(function (res) {
+            if (res.data.error !== 1) {
+                $rootScope.danhmucs = res.data.data;
+                if ($rootScope.danhmucs.dd) {
+                    $rootScope.danhmucs.dd = JSON.parse($rootScope.danhmucs.dd);
+                }
+            }
+        });
     }
+    $scope.GetMauBaoCao = function (d) {
+        $http({
+            method: "POST",
+            url: "Home/GetMauBaoCao",
+            data: { id: d.Diadanh_ID },
+            contentType: 'application/json; charset=utf-8'
+        }).then(function (res) {
+            if (res.data.error !== 1) {
+                $rootScope.bcs = res.data.data;
+            }
+        });
+    }
+
+    $scope.ListDanhmucDiaDanh();
 }]);
 os.controller("LoginCtr", ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
     $scope.login = { tenTruyCap: '', matKhau: '', remer: true };

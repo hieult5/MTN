@@ -308,15 +308,15 @@ namespace MTN.Util
                             if (isUpdate)
                             {
                                 var isExits = db.NV_DulieuQuantrac.Any(res =>
-                                        res.Thuoctinh_ID == col &&
-                                        res.Diadanh_ID == row &&
+                                        res.BaocaoThuoctinh_ID == col &&
+                                        res.BaocaoDiadanh_ID == row &&
                                         DateTime.Compare(datetime.Value, res.NgayQuantrac) == 0);
                                 if (isExits)
                                 {
                                     #region update du lieu quan trac
                                     var temp = db.NV_DulieuQuantrac.FirstOrDefault(res =>
-                                    res.Thuoctinh_ID == col &&
-                                    res.Diadanh_ID == row &&
+                                    res.BaocaoThuoctinh_ID == col &&
+                                    res.BaocaoDiadanh_ID == row &&
                                     DateTime.Compare(datetime.Value, res.NgayQuantrac) == 0);
                                     temp.Giatri = value;
                                     #endregion
@@ -329,8 +329,8 @@ namespace MTN.Util
                                     {
                                         SolieuQuantrac_ID = soLieuIndex.ToString(),
                                         NgayQuantrac = datetime.Value,
-                                        Diadanh_ID = row,
-                                        Thuoctinh_ID = col,
+                                        BaocaoDiadanh_ID = row,
+                                        BaocaoThuoctinh_ID = col,
                                         Giatri = value
                                     };
                                     db.NV_DulieuQuantrac.Add(entity);
@@ -345,8 +345,8 @@ namespace MTN.Util
                                 {
                                     SolieuQuantrac_ID = soLieuIndex.ToString(),
                                     NgayQuantrac = datetime.Value,
-                                    Diadanh_ID = row,
-                                    Thuoctinh_ID = col,
+                                    BaocaoDiadanh_ID = row,
+                                    BaocaoThuoctinh_ID = col,
                                     Giatri = value
                                 };
                                 db.NV_DulieuQuantrac.Add(entity);
@@ -358,15 +358,15 @@ namespace MTN.Util
                             if (isUpdate)
                             {
                                 var isExits = db.NV_Dulieudubao.Any(res =>
-                                        res.Thuoctinh_ID == col &&
-                                        res.Diadanh_ID == row &&
+                                        res.BaocaoThuoctinh_ID == col &&
+                                        res.BaocaoDiadanh_ID == row &&
                                         DateTime.Compare(datetime.Value, res.Ngaydubao) == 0);
                                 if (isExits)
                                 {
                                     #region update du lieu du bao
                                     var temp = db.NV_Dulieudubao.FirstOrDefault(res =>
-                                        res.Thuoctinh_ID == col &&
-                                        res.Diadanh_ID == row &&
+                                        res.BaocaoThuoctinh_ID == col &&
+                                        res.BaocaoDiadanh_ID == row &&
                                         DateTime.Compare(datetime.Value, res.Ngaydubao) == 0
                                     );
                                     temp.Giatri = value;
@@ -380,8 +380,8 @@ namespace MTN.Util
                                     {
                                         SolieuDB_ID = soLieuIndex.ToString(),
                                         Ngaydubao = datetime.Value,
-                                        Diadanh_ID = row,
-                                        Thuoctinh_ID = col,
+                                        BaocaoDiadanh_ID = row,
+                                        BaocaoThuoctinh_ID = col,
                                         Giatri = value
                                     };
                                     db.NV_Dulieudubao.Add(entity);
@@ -396,8 +396,8 @@ namespace MTN.Util
                                 {
                                     SolieuDB_ID = soLieuIndex.ToString(),
                                     Ngaydubao = datetime.Value,
-                                    Diadanh_ID = row,
-                                    Thuoctinh_ID = col,
+                                    BaocaoDiadanh_ID = row,
+                                    BaocaoThuoctinh_ID = col,
                                     Giatri = value
                                 };
                                 db.NV_Dulieudubao.Add(entity);

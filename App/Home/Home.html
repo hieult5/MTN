@@ -1,0 +1,40 @@
+﻿<style>
+    .table-bordered, .table-bordered td, .table-bordered th {
+        border: 1px solid rgba(0, 0, 0, 0.6);
+    }
+
+    .baocaott-box tr td {
+        vertical-align: middle;
+    }
+</style>
+<div ng-if="bcs != null" class="baocaott-box">
+    <table class="table table-bordered">
+        <thead style="background-color: #fff8dc;">
+            <tr class="text-center">
+                <td rowspan="3">TT</td>
+                <td rowspan="3">Hệ thống/Trạm đo</td>
+                <td colspan="{{bcs[0].listbctt.length}}">Bảng tổng hợp chỉ tiêu chất lượng nước</td>
+            </tr>
+            <tr class="text-center">
+                <td colspan="{{bcs[0].listbctt.length}}">
+                    Ngày 14/03
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td ng-repeat="bc in bcs[0].listbctt">
+                    {{bc.listtt[0].Tenthuoctinh}}
+                    <div>({{bc.listtt[0].Donvitinh}})</div>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="text-center" ng-repeat="bc in bcs[0].listbcdd">
+                <td>{{$index + 1}}</td>
+                <td>{{bc.listdd[0].Tendiadanh}}</td>
+                <td ng-repeat="bc in bcs[0].listbctt">
+                    0
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

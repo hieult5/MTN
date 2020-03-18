@@ -160,7 +160,7 @@
                 loader.classList.add('fadeOut');
             }, 300);
         });</script>
-    <div ng-show="isLogin" ng-controller="MainCtr">
+    <div ng-controller="MainCtr">
         <div>
             <div class="sidebar">
                 <div class="sidebar-inner">
@@ -193,32 +193,27 @@
                                 </span><span class="title">Trang chủ</span>
                             </a>
                         </li>
-                        @*<li class="nav-item dropdown {{link==='duan'?'actived':''}}">
-                            <a href="javascript:void(0);" ng-click="goMenuDuan()">
-                                <span class="icon-holder"><i class="c-teal-500 ti-info-alt"></i></span><span class="title">Cá nhân</span>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-toggle" href="javascript:void(0);" ng-click="goMenuCongviec()">
-                                <span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i></span><span class="title">
-                                    Module
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-toggle" href="javascript:void(0);">
-                                <span class="icon-holder"><i class="c-deep-purple-500 ti-user"></i></span><span class="title">
-                                    Thành viên
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="sidebar-link" href="javascript:void(0);">
+                        <li ng-repeat="d in danhmucs track by d.Danhmuc_ID" class="nav-item dropdown open" dropdown>
+                            <a href="#" class="dropdown-toggle" dropdown-toggle>
                                 <span class="icon-holder">
-                                    <i class="c-light-blue-500 ti-bar-chart"></i>
-                                </span><span class="title">Tổng quan</span>
+                                    <i style="color: red" class="fa fa-pie-chart"></i>
+                                </span>
+                                <span class="title">{{d.TenDanhmuc}}</span>
+                                <span class="arrow">
+                                    <i class="ti-angle-right"></i>
+                                </span>
                             </a>
-                        </li>*@
+                            <ul class="dropdown-menu" style=" display: block; overflow-y: auto;">
+                                <li ng-repeat="da in d.dd" class="nav-item dropdown ">
+                                    <a style="padding-left: 12px;" href="unsafe:javascript:void(0);" ng-click="GetMauBaoCao(da)">
+                                        <span style="margin-right: 12px;" class="icon-holder">
+                                            <i style="color: #6dd230" class="fa fa-file-text"></i>
+                                            <span class="title">{{da.Tendiadanh}}</span>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -247,47 +242,8 @@
                         </div>
                     </div>
                 </main>
-                <footer class="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
-                    <span>
-                        Copyright © 2019 Designed by <a href="https://soe.vn" target="_blank" title="Smart Office">soe.vn</a>. All rights reserved.
-                    </span>
-                </footer>
-            </div>
-        </div>
-    </div>
-    <div ng-if="!isLogin" ng-controller="LoginCtr">
-        <div class="peers ai-s fxw-nw h-100vh">
-            <div class="d-n@sm- peer peer-greed h-100 pos-r bgr-n bgpX-c bgpY-c bgsz-cv">
-                <img style="width: 100%; height: 100%;" src="http://businessportal.vn/assets/static/images/bg.jpg">
-            </div>
-            <div class="col-12 col-md-4 peer pX-40 pY-80 h-100 bgc-white scrollable pos-r" style="min-width:320px;padding-top: calc(100vh/2 - 210px)!important;">
-                <div ng-if="!$root.objgetLogin" class="log-logo" style="text-align: center;padding: 10px;"><img src="../../assets/static/images/logo.png" alt="" height="60"></div>
-                <div ng-if="$root.objgetLogin">
-                    <img ng-src="{{baseUrl+($root.objgetLogin.u.anhDaiDien != null ?$root.objgetLogin.u.anhDaiDien:'/Content/noavatar.jpg')}}" alt="{{$root.objgetlogin.u.fullName}}" style="margin: 0 auto;display: block;height: 72px; width: 72px;border-radius: 50%;border: 1px solid #e7dbdb;object-fit: cover;margin-bottom: 15px;">
-                </div>
-                <h4 class="fw-300 c-grey-900 mB-40">Đăng nhập</h4>
-                <form>
-                    <div class="form-group">
-                        <label class="text-normal text-dark">Tài khoản</label> <input type="text" class="form-control" ng-model="login.tenTruyCap" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label class="text-normal text-dark">Mật khẩu</label> <input type="password" ng-model="login.matKhau" class="form-control" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <div class="peers ai-c jc-sb fxw-nw">
-                            <div class="peer">
-                                <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                                    <input type="checkbox" id="inputCall1"
-                                           name="inputCheckboxesCall" class="peer" ng-model="login.remer"> <label for="inputCall1" class="peers peer-greed js-sb ai-c"><span class="peer peer-greed">Ghi nhớ mật khẩu</span></label>
-                                </div>
-                            </div>
-                            <div class="peer" style="text-align: right;color:#2196f3;"><a ng-click="QuenMatKhau()">Quên mật khẩu</a></div>
-                        </div>
-                        <div class="peer" style="margin-top: 20px;"><button class="btn btn-primary" style="width: 100%;" ng-click="Login()"><span ng-show="$parent.loadding"><i class="la la-refresh spinning"></i></span>Truy cập</button></div>
-                    </div>
-                </form>
-            </div>
 
+            </div>
         </div>
     </div>
     @Scripts.Render("~/bundles/jquery")
@@ -308,7 +264,6 @@
     <script src="~/Content/angular-datepicker/datetimepicker.js"></script>
     <script src="~/Content/angular-datepicker/dateTimeInput.js"></script>
     <script src="~/Scripts/aes.js"></script>
-    <script src="@Url.Content("~/App/Chat/emoji.js")"></script>
     <!--amchart Resoureces-->
     <script src="~/Content/amcharts/amcharts.js"></script>
     <script src="~/Content/amcharts/serial.js"></script>
@@ -317,13 +272,7 @@
     <script src="~/Content/amcharts/plugins/export/export.min.js"></script>
     <link href="~/Content/amcharts/plugins/export/export.css" rel="stylesheet" />
     <script src="~/Content/amcharts/themes/light.js"></script>
-    <!--amchart Resoureces Ends Here-->
-    <script type="text/javascript" src="@Url.Content("~/App/FireBase/firebase-app.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/App/FireBase/firebase-messaging.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/App/FireBase/firebase-database.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/App/FireBase/initFireBase.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/App/function.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/App/app.js")"></script>
-    <script src="http://businessportal.vn/App/Component/topbar.js"></script>
 </body>
 </html>
