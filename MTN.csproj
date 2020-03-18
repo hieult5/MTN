@@ -154,11 +154,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Attributes\DeleteFileAttribute.cs" />
     <Compile Include="Common\Models\DuLieuQuanTrac.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\ExcellController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -228,33 +225,12 @@
   <ItemGroup>
     <Content Include="912ec66d7572ff821749319396470bde.svg" />
     <Content Include="9c8e96ecc7fa01e6ebcd196495ed2db5.svg" />
-    <Content Include="App\Account\Account.html" />
-    <Content Include="App\Account\AccountCtr.js" />
-    <Content Include="App\Account\SwitchAcc.html" />
     <Content Include="App\app.js" />
-    <Content Include="App\Chat\emoji.js" />
-    <Content Include="App\Component\topbar.js" />
-    <Content Include="App\directive\pagination.html" />
-    <Content Include="App\FireBase\firebase-app.js" />
-    <Content Include="App\FireBase\firebase-database.js" />
-    <Content Include="App\FireBase\firebase-firestore.js" />
-    <Content Include="App\FireBase\firebase-messaging.js" />
-    <Content Include="App\FireBase\initFireBase.js" />
     <Content Include="App\function.js" />
     <Content Include="App\Home\Danhba.html" />
     <Content Include="App\Home\Home.html" />
     <Content Include="App\Home\HomeCtr.js" />
     <Content Include="App\excel.js" />
-    <Content Include="App\SendHub\SendHub.html" />
-    <Content Include="App\SendHub\SendHubCtr.js" />
-    <Content Include="App\Temp\Phong.html" />
-    <Content Include="App\Temp\Profile.html" />
-    <Content Include="App\Temp\TopBar.html" />
-    <Content Include="App\Temp\TreePhong.html" />
-    <Content Include="App\Temp\TreePhongNoCheck.html" />
-    <Content Include="App\Temp\TreePhongStore.html" />
-    <Content Include="App\Temp\TreePhongUser.html" />
-    <Content Include="App\Temp\User.html" />
     <Content Include="assets\36d50c1381fda7c71d12b6643cbe1ee0.svg" />
     <Content Include="assets\6d16f95495605c95172bc8c924720bff.svg" />
     <Content Include="assets\css\style.css" />
@@ -3188,13 +3164,9 @@
     <Content Include="Views\Excell\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App\Module\" />
     <Folder Include="App_Data\" />
     <Folder Include="Portals\" />
     <Folder Include="TemplateFile\" />
-    <Folder Include="Views\Account\" />
-    <Folder Include="Views\Chat\" />
-    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
