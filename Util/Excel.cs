@@ -149,6 +149,8 @@ namespace MTN.Util
                                     if (!res) response = false;
                                 }
                             });
+                            if (response)
+                                transaction.Commit();
                         }
                         catch (Exception ex)
                         {
@@ -221,10 +223,11 @@ namespace MTN.Util
                 }
                 else
                 {
-                    cell.CellValue = new CellValue(cellValue.ToString());
+                    string text = cellValue == null ? "0" : cellValue.ToString();
+                    cell.CellValue = new CellValue(text);
                     InlineString inlineString = new InlineString();
                     Text txt = new Text();
-                    txt.Text = cellValue == null ? "" : cellValue.ToString();
+                    txt.Text = text;
                     inlineString.Append(txt);
                     cell.InlineString = inlineString;
                     cell.DataType = CellValues.InlineString;
@@ -277,17 +280,17 @@ namespace MTN.Util
                 int? soLieuIndex = null;
                 if (isBC_QuanTrac)
                 {
-                    var lastEntity = (from x in db.NV_DulieuQuantrac 
-                                        orderby x.SolieuQuantrac_ID descending
-                                        select x).FirstOrDefault();
-                    soLieuIndex = lastEntity == null ? 0 : Int32.Parse(lastEntity.SolieuQuantrac_ID);
+                    var lastEntity = db.NV_DulieuQuantrac.AsEnumerable()
+                        .Select(x => new { id = Convert.ToInt32(x.SolieuQuantrac_ID) })
+                        .OrderByDescending(x => x.id).FirstOrDefault();
+                    soLieuIndex = lastEntity == null ? 0 : lastEntity.id;
                 }
                 else
                 {
-                    var lastEntity = (from x in db.NV_Dulieudubao
-                                        orderby x.SolieuDB_ID descending
-                                        select x).FirstOrDefault();
-                    soLieuIndex = lastEntity == null ? 0 : Int32.Parse(lastEntity.SolieuDB_ID);
+                    var lastEntity = db.NV_Dulieudubao
+                        .Select(x => new { id = Convert.ToInt32(x.SolieuDB_ID) })
+                        .OrderByDescending(x => x.id).FirstOrDefault();
+                    soLieuIndex = lastEntity == null ? 0 : lastEntity.id;
                 }
                 lstDD.AsEnumerable().ForEach(ref rowIndex, row =>
                 {

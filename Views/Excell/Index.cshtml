@@ -1,0 +1,108 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+<h2>Index</h2>
+<br />
+@using (Html.BeginForm("GetData", "Excell", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return myFunction()" }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="control-label col-md-2">---------Get Data--------</div>
+            <div class="control-label col-md-2">From Date:</div>
+            <div class="col-md-10">
+                <input type="datetime" id="fromDate" name="fromDate" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="control-label col-md-2">To Date:</div>
+            <div class="col-md-10">
+                <input type="datetime" id="toDate" name="toDate" />
+            </div>
+        </div>
+        <div class="col-md-10">
+            <p>
+                <input type="radio" name="bc" value="false" checked>
+                <label>báo cáo quan trắc</label>
+            </p>
+            <p>
+                <input type="radio" name="bc" value="true">
+                <label>báo cáo dự báo</label>
+            </p>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lấy dữ liệu" id="btnSubmit" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<br />
+@using (Html.BeginForm("ImportExcel", "Excell", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return myFunction()" }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="control-label col-md-2">---------Import--------</div>
+            <div class="col-md-10">
+                <input type="file" id="file" name="file" accept=".xls,.xlsx" class="" />
+            </div>
+        </div>
+        <div class="col-md-10">
+            <p>
+                <input type="radio" name="bc" value="false" checked>
+                <label>báo cáo quan trắc</label>
+            </p>
+            <p>
+                <input type="radio" name="bc" value="true">
+                <label>báo cáo dự báo</label>
+            </p>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Import" id="btnSubmit" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<br />
+<form id="formExport" method="post">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="control-label col-md-2">---------Export-------</div>
+            <div class="control-label col-md-2">From Date:</div>
+            <div class="col-md-10">
+                <input type="datetime" id="fromDate" name="fromDate" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="control-label col-md-2">To Date:</div>
+            <div class="col-md-10">
+                <input type="datetime" id="toDate" name="toDate" />
+            </div>
+        </div>
+        <div class="form-group" style="padding-top: 15px">
+            <div class="control-label col-md-2">Loại Báo Cáo:</div>
+            <div class="col-md-10">
+                <p>
+                    <input type="radio" name="isDuBao" value="false" checked>
+                    <label>báo cáo quan trắc</label>
+                </p>
+                <p>
+                    <input type="radio" name="isDuBao" value="true">
+                    <label>báo cáo dự báo</label>
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Export" id="btnSubmit" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/App/excel.js"></script>

@@ -156,7 +156,7 @@
     <Compile Include="Common\Models\DuLieuQuanTrac.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
-    <Compile Include="Controllers\ExportController.cs" />
+    <Compile Include="Controllers\ExcellController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
@@ -3185,7 +3185,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Export\Index.cshtml" />
+    <Content Include="Views\Excell\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\Module\" />

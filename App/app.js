@@ -283,33 +283,33 @@ os.controller("LoginCtr", ['$scope', '$rootScope', '$http', function ($scope, $r
         }
         swal.showLoading();
         $scope.loadding = true;
-        $.ajax({
-            type: "POST",
-            url: "/Export/ExportData",
-            data: null,
-            contentType: 'application/json; charset=utf-8',
-            beforeSend: function () {
-                //startLoader();
-            },
-            success: function (response) {
-                if (response.status) {
-                    window.location.href = "/Export/Download/?file=" + response.fileName;
-                }
-                else {
-                    alert("không có dữ liệu");
-                }
-            },
-            error: function (response) {
-                alert("lỗi");
-                $scope.loadding = false;
-            },
-            complete: function () {
-                //stopLoader();
-            },
-            always: function () {
-                $scope.loadding = false;
-            }
-        });
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Export/ExportData",
+        //    data: null,
+        //    contentType: 'application/json; charset=utf-8',
+        //    beforeSend: function () {
+        //        //startLoader();
+        //    },
+        //    success: function (response) {
+        //        if (response.status) {
+        //            window.location.href = "/Export/Download/?file=" + response.fileName;
+        //        }
+        //        else {
+        //            alert("không có dữ liệu");
+        //        }
+        //    },
+        //    error: function (response) {
+        //        alert("lỗi");
+        //        $scope.loadding = false;
+        //    },
+        //    complete: function () {
+        //        //stopLoader();
+        //    },
+        //    always: function () {
+        //        $scope.loadding = false;
+        //    }
+        //});
         $.ajax({
             type: "POST",
             url: "/Login/CheckLoginEn",
@@ -321,6 +321,7 @@ os.controller("LoginCtr", ['$scope', '$rootScope', '$http', function ($scope, $r
                 if (data === null || data.trim().length === 0) {
                     $scope.err.ms = "* Tên đăng nhập hoặc mật khẩu không đúng!";
                     $scope.loadding = false;
+                    location.href = baseUrl;
                     Swal.fire({
                         type: 'error',
                         title: '',
