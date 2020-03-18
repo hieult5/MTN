@@ -21,7 +21,7 @@
         },
         success: function (response) {
             if (response.status) {
-                window.location.href = "/Export/Download/?file=" + response.fileName;
+                window.location.href = "/Excell/Download/?file=" + response.fileName;
             }
             else {
                 alert("không có dữ liệu");

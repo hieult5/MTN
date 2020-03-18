@@ -106,17 +106,7 @@ namespace MTN.Util
                     var result = templateStream.ToArray();
                     templateStream.Position = 0;
                     templateStream.Flush();
-                    try
-                    {
-                        if (!File.Exists(excelFile))
-                        {
-                            File.Delete(excelFile);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        throw;
-                    }
+                    
                     return result;
                 }
                 else

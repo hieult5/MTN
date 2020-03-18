@@ -16,8 +16,8 @@ namespace MTN.Models
     {
         public string SolieuQuantrac_ID { get; set; }
         public System.DateTime NgayQuantrac { get; set; }
-        public string Diadanh_ID { get; set; }
-        public string Thuoctinh_ID { get; set; }
+        public string BaocaoDiadanh_ID { get; set; }
+        public string BaocaoThuoctinh_ID { get; set; }
         public double Giatri { get; set; }
     }
 }

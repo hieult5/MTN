@@ -134,86 +134,63 @@ namespace MTN.Controllers
             var lstDD = db.NV_MaubaocaoDiadanh.Where(x => x.MauBC_ID.Equals("BC_CLN")).OrderBy(x => x.STT).Select(row => row.Diadanh_ID);
             if (!"true".Equals(isDuBao))
             {
-                var data = db.NV_DulieuQuantrac.Where(x => lstTT.Any(y => y.Equals(x.Thuoctinh_ID))).Select(row => row);
-                // xử lý filter theo NgayQuanTrac
-                data = data.WhereIf(fromdate.HasValue, row => DateTime.Compare(fromdate.Value, row.NgayQuantrac) <= 0)
-                .WhereIf(todate.HasValue, row => DateTime.Compare(row.NgayQuantrac, todate.Value) <= 0);
-
-                var dataQuanTrac = data.GroupBy(row =>
-                    new
-                    {
-                        row.NgayQuantrac,
-                        row.Diadanh_ID,
-                        row.Thuoctinh_ID,
-                        row.Giatri
-                    }).Select(g => new DuLieuQuanTrac()
-                    {
-                        NgayQuantrac = g.Key.NgayQuantrac,
-                        Diadanh_ID = g.Key.Diadanh_ID,
-                        Thuoctinh_ID = g.Key.Thuoctinh_ID,
-                        Giatri = g.Key.Giatri
-                    });
-
-                var dataNgayQuanTrac = db.NV_DulieuQuantrac.Select(x => x.NgayQuantrac).Distinct().
-                WhereIf(fromdate.HasValue, row => DateTime.Compare(fromdate.Value, row) <= 0)
-                .WhereIf(todate.HasValue, row => DateTime.Compare(row, todate.Value) <= 0).ToList();
+                var dataNgayQuanTrac = db.NV_DulieuQuantrac.Select(x => x.NgayQuantrac).Distinct()
+                    .WhereIf(fromdate.HasValue, row => DateTime.Compare(fromdate.Value, row) <= 0)
+                    .WhereIf(todate.HasValue, row => DateTime.Compare(row, todate.Value) <= 0);
 
                 // loaddata to string[,]
                 int? rowIndex, colIndex;
-
                 dataNgayQuanTrac.ForEach(date =>
-                {
-                    arr = null;
-                    rowIndex = null;
-                    lstDD.AsEnumerable().ForEach(ref rowIndex, row =>
                     {
-                        colIndex = null;
-                        arr = arr ?? new string[lstDD.Count(), lstTT.Count()];
-                        lstTT.AsEnumerable().ForEach(ref colIndex, col =>
+                        var lstTTs = from thuoctinh in db.TD_Thuoctinh
+                                     select new DanhSachDiaDanh() {
+                                         thuocTinhId = thuoctinh.Thuoctinh_ID,
+                                         diadanh = (from dd in db.TD_Diadanh
+                                                    join dlQT in db.NV_DulieuQuantrac on dd.Diadanh_ID equals dlQT.BaocaoDiadanh_ID
+                                                    where dlQT.BaocaoThuoctinh_ID == thuoctinh.Thuoctinh_ID && dlQT.NgayQuantrac == date
+                                                    select new DanhSachThuocTinh() { DiaDanhId = dd.Diadanh_ID, GiaTri = dlQT.Giatri.ToString() })
+                                     };
+                        arr = null;
+                        rowIndex = null;
+                        lstDD.AsEnumerable().ForEach(ref rowIndex, row =>
                         {
-                            var temp = dataQuanTrac.FirstOrDefault(x =>
-                                DateTime.Compare(x.NgayQuantrac, date) == 0 &&
-                                x.Diadanh_ID.Equals(row) &&
-                                x.Thuoctinh_ID.Equals(col));
-
-                            arr[rowIndex.Value, colIndex.Value] = temp == null ? string.Empty : temp.Giatri.ToString();
+                            colIndex = null;
+                            arr = arr ?? new string[lstDD.Count(), lstTT.Count()];
+                            lstTT.AsEnumerable().ForEach(ref colIndex, col =>
+                            {
+                                var danhSachDiaDanhs = lstTTs.Where(r => r.thuocTinhId.Equals(col)).FirstOrDefault();
+                                if (danhSachDiaDanhs == null)
+                                    arr[rowIndex.Value, colIndex.Value] = "0";
+                                else
+                                {
+                                    var tt = danhSachDiaDanhs.diadanh.Where(d => d.DiaDanhId.Equals(row)).FirstOrDefault();
+                                    arr[rowIndex.Value, colIndex.Value] = tt == null ? "0" : tt.GiaTri;
+                                }
+                            });
                         });
-                    });
-
-                    list.Add(date, arr);
-                });
+                        list.Add(date, arr);
+                    }
+                );
             }
             else
             {
-                var data = db.NV_Dulieudubao.Where(x => lstTT.Any(y => y.Equals(x.Thuoctinh_ID))).Select(row => row);
-                // xử lý filter theo NgayQuanTrac
-                data = data.WhereIf(fromdate.HasValue, row => DateTime.Compare(fromdate.Value, row.Ngaydubao) <= 0)
-                .WhereIf(todate.HasValue, row => DateTime.Compare(row.Ngaydubao, todate.Value) <= 0);
-
-                var dataDuBao = data.GroupBy(row =>
-                    new
-                    {
-                        row.Ngaydubao,
-                        row.Diadanh_ID,
-                        row.Thuoctinh_ID,
-                        row.Giatri
-                    }).Select(g => new DuLieuDuBao()
-                    {
-                        NgayDuBao = g.Key.Ngaydubao,
-                        Diadanh_ID = g.Key.Diadanh_ID,
-                        Thuoctinh_ID = g.Key.Thuoctinh_ID,
-                        Giatri = g.Key.Giatri
-                    });
-
-                var dataNgayDuBao = db.NV_Dulieudubao.Select(x => x.Ngaydubao).Distinct().
-                WhereIf(fromdate.HasValue, row => DateTime.Compare(fromdate.Value, row) <= 0)
-                .WhereIf(todate.HasValue, row => DateTime.Compare(row, todate.Value) <= 0).ToList();
+                var dataNgayDuBao = db.NV_Dulieudubao.Select(x => x.Ngaydubao).Distinct()
+                    .WhereIf(fromdate.HasValue, row => DateTime.Compare(fromdate.Value, row) <= 0)
+                    .WhereIf(todate.HasValue, row => DateTime.Compare(row, todate.Value) <= 0);
 
                 // loaddata to string[,]
                 int? rowIndex, colIndex;
-
                 dataNgayDuBao.ForEach(date =>
                 {
+                    var lstTTs = from thuoctinh in db.TD_Thuoctinh
+                                 select new DanhSachDiaDanh()
+                                 {
+                                     thuocTinhId = thuoctinh.Thuoctinh_ID,
+                                     diadanh = (from dd in db.TD_Diadanh
+                                                join dlDB in db.NV_Dulieudubao on dd.Diadanh_ID equals dlDB.BaocaoDiadanh_ID
+                                                where dlDB.BaocaoThuoctinh_ID == thuoctinh.Thuoctinh_ID && dlDB.Ngaydubao == date
+                                                select new DanhSachThuocTinh() { DiaDanhId = dd.Diadanh_ID, GiaTri = dlDB.Giatri.ToString() })
+                                 };
                     arr = null;
                     rowIndex = null;
                     lstDD.AsEnumerable().ForEach(ref rowIndex, row =>
@@ -222,17 +199,19 @@ namespace MTN.Controllers
                         arr = arr ?? new string[lstDD.Count(), lstTT.Count()];
                         lstTT.AsEnumerable().ForEach(ref colIndex, col =>
                         {
-                            var temp = dataDuBao.FirstOrDefault(x =>
-                                DateTime.Compare(x.NgayDuBao, date) == 0 &&
-                                x.Diadanh_ID.Equals(row) &&
-                                x.Thuoctinh_ID.Equals(col));
-
-                            arr[rowIndex.Value, colIndex.Value] = temp == null ? string.Empty : temp.Giatri.ToString();
+                            var danhSachDiaDanhs = lstTTs.Where(r => r.thuocTinhId.Equals(col)).FirstOrDefault();
+                            if (danhSachDiaDanhs == null)
+                                arr[rowIndex.Value, colIndex.Value] = "0";
+                            else
+                            {
+                                var tt = danhSachDiaDanhs.diadanh.Where(d => d.DiaDanhId.Equals(row)).FirstOrDefault();
+                                arr[rowIndex.Value, colIndex.Value] = tt == null ? "0" : tt.GiaTri;
+                            }
                         });
                     });
-
                     list.Add(date, arr);
-                });
+                }
+                );
             }
 
             return list;

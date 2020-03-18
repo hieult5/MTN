@@ -31,8 +31,8 @@
           </Key>
           <Property Name="SolieuDB_ID" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Ngaydubao" Type="date" Nullable="false" />
-          <Property Name="Diadanh_ID" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Thuoctinh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BaocaoDiadanh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BaocaoThuoctinh_ID" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Giatri" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="NV_DulieuQuantrac">
@@ -41,8 +41,8 @@
           </Key>
           <Property Name="SolieuQuantrac_ID" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="NgayQuantrac" Type="date" Nullable="false" />
-          <Property Name="Diadanh_ID" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Thuoctinh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BaocaoDiadanh_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BaocaoThuoctinh_ID" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Giatri" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="NV_MauBaocao">
@@ -293,8 +293,8 @@
           </Key>
           <Property Name="SolieuDB_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Ngaydubao" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Diadanh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Thuoctinh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BaocaoDiadanh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BaocaoThuoctinh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Giatri" Type="Double" Nullable="false" />
         </EntityType>
         <EntityType Name="NV_DulieuQuantrac">
@@ -303,8 +303,8 @@
           </Key>
           <Property Name="SolieuQuantrac_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="NgayQuantrac" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Diadanh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Thuoctinh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BaocaoDiadanh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BaocaoThuoctinh_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Giatri" Type="Double" Nullable="false" />
         </EntityType>
         <EntityType Name="NV_MauBaocao">
@@ -576,8 +576,8 @@
               <MappingFragment StoreEntitySet="NV_Dulieudubao">
                 <ScalarProperty Name="SolieuDB_ID" ColumnName="SolieuDB_ID" />
                 <ScalarProperty Name="Ngaydubao" ColumnName="Ngaydubao" />
-                <ScalarProperty Name="Diadanh_ID" ColumnName="Diadanh_ID" />
-                <ScalarProperty Name="Thuoctinh_ID" ColumnName="Thuoctinh_ID" />
+                <ScalarProperty Name="BaocaoDiadanh_ID" ColumnName="BaocaoDiadanh_ID" />
+                <ScalarProperty Name="BaocaoThuoctinh_ID" ColumnName="BaocaoThuoctinh_ID" />
                 <ScalarProperty Name="Giatri" ColumnName="Giatri" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -587,8 +587,8 @@
               <MappingFragment StoreEntitySet="NV_DulieuQuantrac">
                 <ScalarProperty Name="SolieuQuantrac_ID" ColumnName="SolieuQuantrac_ID" />
                 <ScalarProperty Name="NgayQuantrac" ColumnName="NgayQuantrac" />
-                <ScalarProperty Name="Diadanh_ID" ColumnName="Diadanh_ID" />
-                <ScalarProperty Name="Thuoctinh_ID" ColumnName="Thuoctinh_ID" />
+                <ScalarProperty Name="BaocaoDiadanh_ID" ColumnName="BaocaoDiadanh_ID" />
+                <ScalarProperty Name="BaocaoThuoctinh_ID" ColumnName="BaocaoThuoctinh_ID" />
                 <ScalarProperty Name="Giatri" ColumnName="Giatri" />
               </MappingFragment>
             </EntityTypeMapping>
