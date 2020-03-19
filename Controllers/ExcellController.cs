@@ -31,7 +31,7 @@ namespace MTN.Controllers
 
         #region ExportExcel
         [HttpPost]
-        public JsonResult ExportData(string fromDate, string toDate, string isDuBao)
+        public JsonResult ExportData(string fromDate, string toDate, string isDuBao, string id)
         {
             // fix data request
             DateTime? fromdate = fromDate.ConvertStringToDate();
@@ -41,7 +41,7 @@ namespace MTN.Controllers
             using (var db = new Models.DbEntities())
             {
                 string fileName;
-                Dictionary<DateTime, string[,]> list = GetDataSearch(db, fromDate, toDate, isDuBao);
+                Dictionary<DateTime, string[,]> list = GetDataSearch(db, fromDate, toDate, isDuBao, id);
                 string excelFile = Excel.getCopyExcelTemplateFile(out fileName);
                 var excelBytes = list.WriteExcel(excelFile);
                 if (excelBytes != null)
@@ -63,6 +63,21 @@ namespace MTN.Controllers
             }
         }
         #endregion
+
+        [HttpPost]
+        public JsonResult Test()
+        {
+            using (var db = new Models.DbEntities())
+            {
+                var data = db.TD_Diadanh.Select((x, i) => new
+                {
+                    index = i,
+                    x.Tendiadanh
+                });
+                return Json(new { data });
+            }
+
+        }
 
         #region Import
         [HttpPost]
@@ -94,7 +109,7 @@ namespace MTN.Controllers
                 }
                 else
                     return Json(new { status = false, messenger = "chưa chọn file" });
-                return Json(new { status = true } );
+                return Json(new { status = true });
             }
             catch (Exception ex)
             {
@@ -105,24 +120,51 @@ namespace MTN.Controllers
 
         #region Get Data Search DateTime
         [HttpPost]
-        public JsonResult GetData(string fromDate, string toDate, string bc)
+        public JsonResult GetData(string fromDate, string toDate, string bc, string id)
         {
             try
             {
-                Dictionary<DateTime, string[,]> list = new Dictionary<DateTime, string[,]>(); 
+                Dictionary<DateTime, string[,]> list = new Dictionary<DateTime, string[,]>();
+                List<DataBaoCao> lstData = new List<DataBaoCao>();
                 using (var db = new Models.DbEntities())
                 {
-                    list = GetDataSearch(db, fromDate, toDate, bc);
+                    list = GetDataSearch(db, fromDate, toDate, bc, id);
+                    var baocaoId = db.NV_MauBaocao.Where(x => x.Trangthai && x.Diadanh_ID == id).Select(x => x.MauBC_ID).FirstOrDefault();
+                    if (string.IsNullOrEmpty(baocaoId))
+                        return Json(new { messenger = "không có mã địa danh", status = false }); ;
+                    var lstTT = db.NV_MaubaocaoThuoctinh.Where(x => x.MauBC_ID.Equals(baocaoId)).OrderBy(x => x.STT).Select(row => row.Thuoctinh_ID);
+                    var lstDD = db.NV_MaubaocaoDiadanh.Where(x => x.MauBC_ID.Equals(baocaoId)).OrderBy(x => x.STT).Select(row => row.Diadanh_ID);
+                    int? rowIndex, colIndex;
+                    List<DataViewRows> datas = new List<DataViewRows>();
+                    List<string> arr = new List<string>();
+                    foreach (KeyValuePair<DateTime, string[,]> item in list)
+                    {
+                        DataBaoCao data = new DataBaoCao();
+                        data.datetime = item.Key.ToString("dd/MM/yyyy");
+                        rowIndex = null; datas.Clear();
+                        lstDD.AsEnumerable().ForEach(ref rowIndex, row =>
+                        {
+                            colIndex = null; arr.Clear();
+                            lstTT.AsEnumerable().ForEach(ref colIndex, col =>
+                            {
+                                arr.Add(item.Value[rowIndex.Value, colIndex.Value]);
+                            });
+                            datas.Add(new DataViewRows() { data = arr });
+                        });
+                        data.datas = datas;
+                        lstData.Add(data);
+                    }
                 }
-                return Json(new { date = list.Keys, arrDatas = list.Values, status = true });
+
+                return Json(new { data = lstData, status = true });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Json(new { messenger = ex.Message, status = false });
             }
         }
 
-        private Dictionary<DateTime, string[,]> GetDataSearch(Models.DbEntities db, string fromDate, string toDate, string isDuBao)
+        private Dictionary<DateTime, string[,]> GetDataSearch(Models.DbEntities db, string fromDate, string toDate, string isDuBao, string diadanhId)
         {
             // fix data request
             DateTime? fromdate = fromDate.ConvertStringToDate();
@@ -130,8 +172,11 @@ namespace MTN.Controllers
 
             Dictionary<DateTime, string[,]> list = new Dictionary<DateTime, string[,]>();
             string[,] arr;
-            var lstTT = db.NV_MaubaocaoThuoctinh.Where(x => x.MauBC_ID.Equals("BC_CLN")).OrderBy(x => x.STT).Select(row => row.Thuoctinh_ID);
-            var lstDD = db.NV_MaubaocaoDiadanh.Where(x => x.MauBC_ID.Equals("BC_CLN")).OrderBy(x => x.STT).Select(row => row.Diadanh_ID);
+            var baocaoId = db.NV_MauBaocao.Where(x => x.Trangthai && x.Diadanh_ID == diadanhId).Select(x => x.MauBC_ID).FirstOrDefault();
+            if (string.IsNullOrEmpty(baocaoId))
+                return list;
+            var lstTT = db.NV_MaubaocaoThuoctinh.Where(x => x.MauBC_ID.Equals(baocaoId)).OrderBy(x => x.STT).Select(row => row.Thuoctinh_ID);
+            var lstDD = db.NV_MaubaocaoDiadanh.Where(x => x.MauBC_ID.Equals(baocaoId)).OrderBy(x => x.STT).Select(row => row.Diadanh_ID);
             if (!"true".Equals(isDuBao))
             {
                 var dataNgayQuanTrac = db.NV_DulieuQuantrac.Select(x => x.NgayQuantrac).Distinct()
@@ -141,35 +186,36 @@ namespace MTN.Controllers
                 // loaddata to string[,]
                 int? rowIndex, colIndex;
                 dataNgayQuanTrac.ForEach(date =>
+                {
+                    var lstTTs = from thuoctinh in db.TD_Thuoctinh
+                                 select new DanhSachDiaDanh()
+                                 {
+                                     thuocTinhId = thuoctinh.Thuoctinh_ID,
+                                     diadanh = (from dd in db.TD_Diadanh
+                                                join dlQT in db.NV_DulieuQuantrac on dd.Diadanh_ID equals dlQT.BaocaoDiadanh_ID
+                                                where dlQT.BaocaoThuoctinh_ID == thuoctinh.Thuoctinh_ID && dlQT.NgayQuantrac == date
+                                                select new DanhSachThuocTinh() { DiaDanhId = dd.Diadanh_ID, GiaTri = dlQT.Giatri.ToString() })
+                                 };
+                    arr = null;
+                    rowIndex = null;
+                    lstDD.AsEnumerable().ForEach(ref rowIndex, row =>
                     {
-                        var lstTTs = from thuoctinh in db.TD_Thuoctinh
-                                     select new DanhSachDiaDanh() {
-                                         thuocTinhId = thuoctinh.Thuoctinh_ID,
-                                         diadanh = (from dd in db.TD_Diadanh
-                                                    join dlQT in db.NV_DulieuQuantrac on dd.Diadanh_ID equals dlQT.BaocaoDiadanh_ID
-                                                    where dlQT.BaocaoThuoctinh_ID == thuoctinh.Thuoctinh_ID && dlQT.NgayQuantrac == date
-                                                    select new DanhSachThuocTinh() { DiaDanhId = dd.Diadanh_ID, GiaTri = dlQT.Giatri.ToString() })
-                                     };
-                        arr = null;
-                        rowIndex = null;
-                        lstDD.AsEnumerable().ForEach(ref rowIndex, row =>
+                        colIndex = null;
+                        arr = arr ?? new string[lstDD.Count(), lstTT.Count()];
+                        lstTT.AsEnumerable().ForEach(ref colIndex, col =>
                         {
-                            colIndex = null;
-                            arr = arr ?? new string[lstDD.Count(), lstTT.Count()];
-                            lstTT.AsEnumerable().ForEach(ref colIndex, col =>
+                            var danhSachDiaDanhs = lstTTs.Where(r => r.thuocTinhId.Equals(col)).FirstOrDefault();
+                            if (danhSachDiaDanhs == null)
+                                arr[rowIndex.Value, colIndex.Value] = "0";
+                            else
                             {
-                                var danhSachDiaDanhs = lstTTs.Where(r => r.thuocTinhId.Equals(col)).FirstOrDefault();
-                                if (danhSachDiaDanhs == null)
-                                    arr[rowIndex.Value, colIndex.Value] = "0";
-                                else
-                                {
-                                    var tt = danhSachDiaDanhs.diadanh.Where(d => d.DiaDanhId.Equals(row)).FirstOrDefault();
-                                    arr[rowIndex.Value, colIndex.Value] = tt == null ? "0" : tt.GiaTri;
-                                }
-                            });
+                                var tt = danhSachDiaDanhs.diadanh.Where(d => d.DiaDanhId.Equals(row)).FirstOrDefault();
+                                arr[rowIndex.Value, colIndex.Value] = tt == null ? "0" : tt.GiaTri;
+                            }
                         });
-                        list.Add(date, arr);
-                    }
+                    });
+                    list.Add(date, arr);
+                }
                 );
             }
             else
